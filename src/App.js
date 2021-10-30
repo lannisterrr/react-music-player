@@ -6,10 +6,15 @@ import data from './util';
 function App() {
   const [songs, setSongs] = useState(data());
   const [currentSong, setCurrentSong] = useState(songs[0]); // at mount show the first song in array
+  const [isPlaying, setIsPlaying] = useState(false);
   return (
     <div className="App">
       <Song currentSong={currentSong} />
-      <Player />
+      <Player
+        isPlaying={isPlaying}
+        setIsPlaying={setIsPlaying}
+        currentSong={currentSong}
+      />
     </div>
   );
 }
