@@ -82,6 +82,17 @@ function chillHop() {
       id: uuidv4(),
       active: false,
     },
+    {
+      name: 'Ayna',
+      cover:
+        'https://c.saavncdn.com/095/Ayna-Bengali-2021-20210727042220-500x500.jpg',
+      artist: 'Tanveer Evan',
+      audio:
+        'https://sdlhivkecdnems01.cdnsrv.jio.com/jiosaavn.cdn.jio.com/095/413a74167454b6070c9e37fe2e4f5495_160.mp4',
+      color: ['#6F4483', '#E0A468'],
+      id: uuidv4(),
+      active: false,
+    },
   ];
 }
 

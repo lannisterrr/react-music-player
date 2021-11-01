@@ -7,8 +7,14 @@ import {
   faAngleRight,
 } from '@fortawesome/free-solid-svg-icons'; // the actual icon
 
-const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
-  const audioRef = useRef(null);
+const Player = ({
+  currentSong,
+  isPlaying,
+  setIsPlaying,
+  audioRef,
+  setSongInfo,
+  songInfo,
+}) => {
   const playSongHandler = () => {
     if (isPlaying) {
       audioRef.current.pause();
@@ -19,19 +25,15 @@ const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
     }
   };
 
-  const timeUpdateHandler = e => {
-    let current = e.target.currentTime;
-    let duration = e.target.duration;
-    setSongInfo({ ...songInfo, currentTime: current, duration }); // ... for previous value in object
-  };
-
   const getTime = time => {
-    let Minutes = Math.floor(time / 60); // to get the minutes
-    let Seconds = Math.floor(time % 60);
-    if (Seconds < 10) {
-      Seconds = `0${Seconds}`;
+    if (time) {
+      let Minutes = Math.floor(time / 60); // to get the minutes
+      let Seconds = Math.floor(time % 60);
+      if (Seconds < 10) {
+        Seconds = `0${Seconds}`;
+      }
+      return `${Minutes}:${Seconds}`;
     }
-    return `${Minutes}:${Seconds}`;
   };
 
   function dragHandler(e) {
@@ -42,23 +44,25 @@ const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
   }
 
   //state
-  const [songInfo, setSongInfo] = useState({
-    currentTime: 0,
-    duration: 0,
-  });
 
   return (
     <div className="player-container">
       <div className="time-control">
-        <p>{getTime(songInfo.currentTime)}</p>
+        <p>
+          {getTime(songInfo.currentTime)
+            ? getTime(songInfo.currentTime)
+            : '0:00'}
+        </p>
         <input
           min={0}
-          max={songInfo.duration}
+          max={`${songInfo.duration}`}
           value={songInfo.currentTime}
           type="range"
           onChange={dragHandler}
         />
-        <p>{getTime(songInfo.duration)}</p>
+        <p>
+          {getTime(songInfo.duration) ? getTime(songInfo.duration) : '0:00'}
+        </p>
       </div>
       <div className="player-control">
         <FontAwesomeIcon className="skip-back" size="2x" icon={faAngleLeft} />
@@ -74,12 +78,6 @@ const Player = ({ currentSong, isPlaying, setIsPlaying }) => {
           icon={faAngleRight}
         />
       </div>
-      <audio
-        onTimeUpdate={timeUpdateHandler}
-        onLoadedMetadata={timeUpdateHandler}
-        ref={audioRef}
-        src={currentSong.audio}
-      ></audio>
     </div>
   );
 };
