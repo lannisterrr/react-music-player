@@ -15,9 +15,11 @@ const LibrarySongs = ({
     const newSongs = songs.map(song => {
       if (song.id === id) {
         return {
+          // whatever inside song object - keep that , just change the active property to true.
           ...song,
           active: true,
         };
+        // else every other song which is not playing set it to false.
       } else {
         return {
           ...song,
@@ -26,6 +28,7 @@ const LibrarySongs = ({
       }
     });
     setSongs(newSongs);
+    // to deal with toggling between different songs while playing .
     if (isPlaying) {
       const playPromise = audioRef.current.play();
       // when the audio is ready to play and not undefined then play the music

@@ -4,6 +4,7 @@ import Song from './components/Song';
 import Player from './components/Player';
 import data from './util';
 import Library from './components/Library';
+import Nav from './components/Nav';
 function App() {
   const [songs, setSongs] = useState(data());
   const [currentSong, setCurrentSong] = useState(songs[0]); // at mount show the first song in array
@@ -13,6 +14,8 @@ function App() {
     currentTime: 0,
     duration: 0,
   });
+  const [libraryStatus, setLibraryStatus] = useState(false);
+
   const timeUpdateHandler = e => {
     let current = e.target.currentTime;
     let duration = e.target.duration;
@@ -21,6 +24,7 @@ function App() {
   };
   return (
     <div className="App">
+      <Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
       <Song currentSong={currentSong} />
       <Player
         isPlaying={isPlaying}
@@ -29,6 +33,8 @@ function App() {
         audioRef={audioRef}
         setSongInfo={setSongInfo}
         songInfo={songInfo}
+        setCurrentSong={setCurrentSong}
+        songs={songs}
       />
       <Library
         audioRef={audioRef}
@@ -36,6 +42,7 @@ function App() {
         setSongs={setSongs}
         setCurrentSong={setCurrentSong}
         isPlaying={isPlaying}
+        libraryStatus={libraryStatus}
       />
       <audio
         onTimeUpdate={timeUpdateHandler}

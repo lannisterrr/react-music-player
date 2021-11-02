@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // this is kinda like components not the specific icons
 import {
   faPlay,
@@ -14,6 +14,8 @@ const Player = ({
   audioRef,
   setSongInfo,
   songInfo,
+  setCurrentSong,
+  songs,
 }) => {
   const playSongHandler = () => {
     if (isPlaying) {
@@ -43,7 +45,21 @@ const Player = ({
     setSongInfo({ ...songInfo, currentTime: e.target.value }); // this sets our Slider(UI) in sync with the currentTime but not audio
   }
 
-  //state
+  function skipSongHandler(direction) {
+    // we need to check i which position I am i.e the 'index'. The currentSong object doesn't have the index.
+    // check if the song that I am playing has an id that is equal to the any id in the songs array. than give me the index of that
+    let currentIndex = songs.findIndex(song => song.id === currentSong.id); // if any object in the array has an id match with song you are playing
+    if (direction === 'skip-forward') {
+      setCurrentSong(songs[(currentIndex + 1) % songs.length]); // when it reaches 9 % 9 = 0 , it sets again songs[0]
+    }
+    if (direction === 'skip-back') {
+      if ((currentIndex - 1) % songs.length === -1) {
+        setCurrentSong(songs[songs.length - 1]);
+        return; // because we don't want the below code to run
+      }
+      setCurrentSong(songs[(currentIndex - 1) % songs.length]);
+    }
+  }
 
   return (
     <div className="player-container">
@@ -65,7 +81,12 @@ const Player = ({
         </p>
       </div>
       <div className="player-control">
-        <FontAwesomeIcon className="skip-back" size="2x" icon={faAngleLeft} />
+        <FontAwesomeIcon
+          className="skip-back"
+          size="2x"
+          icon={faAngleLeft}
+          onClick={() => skipSongHandler('skip-back')}
+        />
         <FontAwesomeIcon
           onClick={playSongHandler}
           className="play-pause"
@@ -76,6 +97,7 @@ const Player = ({
           className="skip-forward"
           size="2x"
           icon={faAngleRight}
+          onClick={() => skipSongHandler('skip-forward')}
         />
       </div>
     </div>
