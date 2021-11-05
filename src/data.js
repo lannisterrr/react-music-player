@@ -89,7 +89,7 @@ function chillHop() {
       artist: 'Tanveer Evan',
       audio:
         'https://sdlhivkecdnems01.cdnsrv.jio.com/jiosaavn.cdn.jio.com/095/413a74167454b6070c9e37fe2e4f5495_160.mp4',
-      color: ['#6F4483', '#E0A468'],
+      color: ['#0491CF', '#A35966'],
       id: uuidv4(),
       active: false,
     },

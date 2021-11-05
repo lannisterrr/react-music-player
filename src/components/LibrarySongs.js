@@ -9,8 +9,8 @@ const LibrarySongs = ({
   setSongs,
   id,
 }) => {
-  const songSelectHandler = () => {
-    setCurrentSong(song); // outstanding you did it your self
+  const songSelectHandler = async () => {
+    await setCurrentSong(song); // outstanding you did it your self
     // Add active state
     const newSongs = songs.map(song => {
       if (song.id === id) {
@@ -27,17 +27,10 @@ const LibrarySongs = ({
         };
       }
     });
+    console.log('Change in Library');
     setSongs(newSongs);
     // to deal with toggling between different songs while playing .
-    if (isPlaying) {
-      const playPromise = audioRef.current.play();
-      // when the audio is ready to play and not undefined then play the music
-      if (playPromise !== undefined) {
-        playPromise.then(audio => {
-          audioRef.current.play();
-        });
-      }
-    }
+    if (isPlaying) audioRef.current.play();
   };
   return (
     // 'library-song' is generated with map and contains each song's information
